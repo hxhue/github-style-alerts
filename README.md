@@ -25,3 +25,6 @@ All you need is to reference 3 files in your html:
 - [`github-markdown-css@5.3.0/github-markdown-dark.css`](https://cdn.jsdelivr.net/npm/github-markdown-css@5.3.0/github-markdown-dark.css)
 
 See [examples/ex0.html](examples/ex0.html).
+
+> [!IMPORTANT]
+> You have to download the files instead of referencing them by a `https://raw.githubusercontent.com/`-prefixed URL, because Github is not a CDN, and JavaScript file on Github cannot be embedded into a html.
