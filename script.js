@@ -30,8 +30,8 @@
     if (!blockquote || blockquote.tagName !== "BLOCKQUOTE") return;
     const firstChild = blockquote.firstElementChild;
     if (firstChild.tagName !== "P") return;
-    const result = firstChild.textContent.match(/\[\!(.*)\]/);
-    if (!result) return;
+    const result = firstChild.textContent.match(/^\[\!(.*)\]([\r\n]*)(.*)$/);
+    if (!result || result[2] === '' && result[3] !== '') return;
     const key = result[1].toUpperCase();
     if (!map[key]) return;
 
@@ -41,11 +41,15 @@
     title.appendChild(makeHTML(titleIcon));
     title.appendChild(makeHTML(titleText));
     blockquote.insertBefore(title, firstChild);
-    blockquote.removeChild(firstChild);
-
+    if (result[2] === '') {
+      blockquote.removeChild(firstChild);
+    } else {
+      firstChild.innerHTML = firstChild.innerHTML.slice('![]'.length + key.length + result[2].length);
+    }
     const div = document.createElement("div");
     div.classList.add(...map[key].classList);
     div.innerHTML = blockquote.innerHTML;
+    // Replace blockquote with div.
     blockquote.insertAdjacentElement("beforebegin", div);
     blockquote.remove();
   };
